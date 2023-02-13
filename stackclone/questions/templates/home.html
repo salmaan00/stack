@@ -1,0 +1,41 @@
+{%extends 'base.html'%}
+{%block body_block%}
+<!-- <h1>{{request.user}}</h1> -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <form action="" method="post" enctype="multipart/form-data">
+            {%csrf_token%}
+            {{form.as_p}}
+        <input type="submit" value="POST">
+        </form>
+            
+        </div>
+        <div class="col-4"></div>
+    </div>
+    <div class="container">
+        <div class="row">
+            {%for q in questions%}
+            <div class="col-lg-6">
+            <!-- Blog post-->
+            <div class="card mb-4">
+                {%if q.image%}
+                <a href="#!"><img class="card-img-top" src="{{q.image.url}}" alt="..." /></a>
+                {%endif%}
+                <div class="card-body">
+                    <div class="small text-muted">{{q.created_date}}</div>
+                    <h4 class="card-title h4">{{q.user}}</h4>
+                    <h2 class="card-title h4">{{q.description}}</h2>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla.</p>
+                    <a class="btn btn-primary" href="{%url 'detail' q.id%}">Read more →</a>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-6"></div>
+            {%endfor%}
+        </div>
+    </div>
+</div>
+{%endblock%}

@@ -1,0 +1,56 @@
+{%extends 'base.html'%}
+{%block body_block%}
+
+<div class="container">
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <div class="card mb-4">
+                {%if questions.image%}
+                <a href="#!"><img class="card-img-top" src="{{questions.image.url}}" alt="..." /></a>
+                {%endif%}
+                <div class="card-body">
+                    <div class="small text-muted">{{questions.created_date}}</div>
+                    <h4 class="card-title h4">{{questions.user}}</h4>
+                    <h2 class="card-title h4">{{questions.description}}</h2>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla.</p>
+                    <form action="{%url 'addanswer' questions.id%}" method="post">
+
+                        {%csrf_token%}
+                        {{form.as_p}}
+
+                        <input type="submit" value="addyouranswer" class="btn btn-info">
+                    </form>
+
+                    <!-- <a class="btn btn-primary" href="#"></a> -->
+                </div>
+                <p>
+                
+                    <button class="btn btn-primary form-control" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                      answers
+                    </button>
+                  </p>
+                  <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                        <ul class="list-group">
+                            {%for ans in questions.fetch_answers%}
+                                     <li class="list-group-item">
+                                        <a href="{%url 'upvote' ans.id %}">upvote <span>{{ans.upvote.all.count}}</span></a>
+                                      <h2 class="card-title h4">{{ans.answer}}</h2>
+                                        <div class="small text-muted">replied on {{ans.created_date}} by {{ans.answer}}</div>
+                                        {%if ans.user == request.user %}
+                                        <a href="{%url 'remove' ans.id %}" class="btn btn-sm btn-outline-danger">remove</a>
+                                        {%endif%}
+                                     </li>
+
+                            {%endfor%}
+                        </ul>
+                    </div>
+                  </div>
+        </div>
+        <div class="col-4"></div>
+    </div>
+</div>
+
+
+{%endblock%}
